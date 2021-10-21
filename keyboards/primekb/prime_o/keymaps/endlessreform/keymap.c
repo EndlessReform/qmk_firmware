@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
-#include "g/keymap_combo.h"
+// #include "g/keymap_combo.h"
 
 // Make 7 underscores syntactic sugar for KC_TRANS
 #define _______ KC_TRNS
