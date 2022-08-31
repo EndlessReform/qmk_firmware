@@ -16,12 +16,12 @@
 #include QMK_KEYBOARD_H
 /* See QMK combo docs "Dictionary Management" */
 #include "g/keymap_combo.h"
-#define BASE 0
-#define NAV 1
-#define PUNC 2
-#define TOP 3
-#define GREEK 4
-#define GIT 5
+#define _BASE 0
+#define _NAV 1
+#define _MD 2
+#define _TOP 3
+#define _GREEK 4
+#define _GIT 5
 
 // Macro definitions. All are in (R: row, C: key) order
 enum custom_keycodes {
@@ -117,23 +117,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     - R4: 13
     - R5: 07
     */
-    [BASE] = LAYOUT_all(
+    [_BASE] = LAYOUT_all(
         KC_ESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS, KC_EQL, KC_BSLS, KC_GRV,
         KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC, KC_BSPC,
-        LCTL_T(KC_ESC), KC_A, KC_S, KC_D, LT(GIT, KC_F), KC_G, KC_H, KC_J, KC_K, KC_L, LT(PUNC, KC_SCLN), KC_QUOT, KC_ENT,
-        KC_LSFT, KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, MO(TOP), KC_UP, MO(GREEK),
-        MO(NAV), KC_LGUI, KC_LALT, KC_SPACE, KC_SPACE, KC_SPACE, KC_RALT, LGUI(KC_LSFT), LGUI(KC_LSFT), LGUI(KC_LSFT), LCTL(KC_LSFT)
+        LCTL_T(KC_ESC), KC_A, KC_S, KC_D, LT(_GIT, KC_F), KC_G, KC_H, KC_J, KC_K, KC_L, LT(_MD, KC_SCLN), KC_QUOT, KC_ENT,
+        KC_LSFT, KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, MO(_TOP), KC_UP, MO(_GREEK),
+        MO(_NAV), KC_LGUI, KC_LALT, KC_SPACE, KC_SPACE, KC_SPACE, KC_RALT, LGUI(KC_LSFT), LGUI(KC_LSFT), LGUI(KC_LSFT), LCTL(KC_LSFT)
     ),
 
-    [NAV] = LAYOUT_all(
+    [_NAV] = LAYOUT_all(
         KC_ESC, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, _______, _______,
-        _______, KC_VOLD, _______, KC_VOLU, _______, _______, KC_END, KC_PGDN, KC_PGUP, KC_HOME, _______, _______, _______, KC_DEL,
+        _______, KC_VOLD, KC_MSTP, KC_VOLU, _______, _______, KC_END, KC_PGDN, KC_PGUP, KC_HOME, _______, _______, _______, KC_DEL,
         _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, _______, _______, _______,
         _______, KC_LSFT, _______, _______, CMB_TOG, _______, _______, _______, AG_TOGG, _______, _______, _______, KC_CAPS, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, RESET
     ),
 
-    [PUNC] = LAYOUT_all(
+    [_MD] = LAYOUT_all(
         _______, H1, H2, H3, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, TAGGED, _______, _______, _______, _______, _______, _______, _______, _______,
         CDFC, _______, ALSO, DIVIDER, _______, KC_LPRN, KC_RPRN, _______, MARROW, _______, _______, _______, _______,
@@ -141,7 +141,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
 
-    [TOP] = LAYOUT_all(
+    [_TOP] = LAYOUT_all(
         _______, NOT, _______, _______, MATH, _______, EXP, _______, MUL, _______, _______, SSCRIPT, SUM, LTX_CDFC, _______,
         QQUAD, AND, OR, INTERSECTION, UNION, SUBSET, SUPERSET, FORALL, INFTY, EXISTS, PARTIAL, LCORNER, RCORNER, _______,
         BEGIN, FALSE, TRUE, TD(TD_PROVES_MODELS), DASHV, UP, DOWN, TD(TD_LEFT_ARROW), TD(TD_RIGHT_ARROW), IFF, _______, PRIME, _______, _______,
@@ -149,7 +149,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, SPC, SPC, SPC, _______, _______, _______, _______, _______
     ),
 
-    [GREEK] = LAYOUT_all(
+    [_GREEK] = LAYOUT_all(
         _______, _______, _______, _______, _______, _______, QED, _______, TIMES, _______, EMPTY, _______, _______, _______, _______,
         _______, THETA, OMEGA, EPSILON, RHO, TAU, UPSILON, PSI, IOTA, OMICRON, PI, _______, _______, _______,
         _______, ALPHA, SIGMA, DELTA, PHI, GAMMA, ETA, _______, KAPPA, LAMBDA, _______, _______, _______,
@@ -157,7 +157,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, SPC, SPC, SPC, _______, _______, _______, _______, _______
     ),
 
-    [GIT] = LAYOUT_all(
+    [_GIT] = LAYOUT_all(
         GIT_KEY, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, DDASH, _______, _______, RM,
         TAG, _______, _______, _______, REMOTE, _______, _______, UPSTREAM, INIT, ORIGIN, _______, _______, _______, REVERT,
         PUSH, _______, STATUS, DEVELOP, _______, GLOBAL, _______, _______, _______, LOG, _______, _______, COMMIT,
