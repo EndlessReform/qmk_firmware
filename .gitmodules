@@ -18,3 +18,6 @@
 [submodule "lib/lufa"]
 	path = lib/lufa
 	url = https://github.com/qmk/lufa
+[submodule "lib/pico-sdk"]
+	path = lib/pico-sdk
+	url = https://github.com/qmk/pico-sdk.git
