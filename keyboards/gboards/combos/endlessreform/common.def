@@ -1,0 +1,2 @@
+
+SUBS(sdWinTab, SS_LGUI(SS_TAP(X_TAB)), KC_S, KC_D)

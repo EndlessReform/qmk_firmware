@@ -14,6 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
+#include "g/keymap_combo.h"
 
 // Make 7 underscores syntactic sugar for KC_TRANS
 // #define _______ KC_TRNS
@@ -73,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,
     _______,KC_VOLD,KC_MSTP,KC_VOLU,_______,_______,_______,_______,_______,_______,KC_END, KC_PGDN,KC_PGUP,KC_HOME,_______,_______,
     _______,KC_MPRV,KC_MPLY,KC_MNXT,_______,_______,_______,_______,_______,_______,KC_LEFT,KC_DOWN,KC_UP,  KC_RGHT,LALT(KC_LEFT),LALT(KC_RIGHT),
-    _______,_______,_______,_______,_______,_______,_______,_______,_______,_______,LCTL(LSFT(KC_LEFT)),LSFT(KC_HOME),LSFT(KC_END),LCTL(LSFT(KC_RIGHT)),_______,_______,
+    _______,_______,_______,CMB_TOG,_______,_______,_______,_______,_______,_______,LCTL(LSFT(KC_LEFT)),LSFT(KC_HOME),LSFT(KC_END),LCTL(LSFT(KC_RIGHT)),_______,_______,
     _______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______
   ),
 
