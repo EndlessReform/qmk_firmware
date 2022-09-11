@@ -20,12 +20,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "config_common.h"
 
 /* USB Device descriptor parameter */
-#define VENDOR_ID 0x0481
-#define PRODUCT_ID 0x0002
+#define VENDOR_ID 0x1209
+#define PRODUCT_ID 0x4704
 #define DEVICE_VER 0x0001
-#define MANUFACTURER Tom Wong-Cornall/Purdea Andrei/kmnov2017/listofoptions
+#define MANUFACTURER xwhatsit/pandrew/Arkku/kmnov2017/listofoptions
 #define PRODUCT IBM 4978 Beamship
-#define DESCRIPTION QMK firmware for the IBM 4978 Beamship keyboards using a 'universal' xwhatsit controller PCB
+//#define DESCRIPTION QMK firmware for the IBM 4978 Beamship keyboards using a 'universal' xwhatsit controller PCB
 
 /* key matrix size */
 #define MATRIX_ROWS 8
@@ -193,8 +193,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* disable these deprecated features by default */
 #ifndef LINK_TIME_OPTIMIZATION_ENABLE
-  #define NO_ACTION_MACRO
-  #define NO_ACTION_FUNCTION
+//#define NO_ACTION_MACRO
+//#define NO_ACTION_FUNCTION
 #endif
 /*
  * MIDI options
@@ -263,11 +263,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CAPSENSE_CAL_ENABLED 1
 // #define CAPSENSE_CAL_ENABLED 0
 #define CAPSENSE_CAL_DEBUG 1
+#define CAPSENSE_CAL_AUTOSAVE 1 // Save calibration to EEPROM
 // #define CAPSENSE_CAL_DEBUG 0
 #define CAPSENSE_CAL_INIT_REPS 16
 #define CAPSENSE_CAL_EACHKEY_REPS 16
 #define CAPSENSE_CAL_BINS 15
-#define CAPSENSE_CAL_THRESHOLD_OFFSET 120
+
+// The offset is untested for this keyboard and may need adjusting
+// If you get phantom presses, adjust it up, or down if getting flaky or non-responsive keys.
+#define CAPSENSE_CAL_THRESHOLD_OFFSET 96
 
 #if !CAPSENSE_CAL_ENABLED
 #define CAPSENSE_HARDCODED_THRESHOLD 142
@@ -278,7 +282,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // By default we set up for support of xwhatsit's solenoid driver board.
 // Comment out HAPTIC_ENABLE_PIN if you don't have an enable pin:
 #define HAPTIC_ENABLE_PIN D3
-// We disable haptic feedbeck during USB low power conditions:
+// We disable haptic feedback during USB low power conditions:
 #define HAPTIC_OFF_IN_LOW_POWER 1
 // Change this if you are using a different pin for the solenoid:
 #define SOLENOID_PIN D2

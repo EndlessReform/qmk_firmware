@@ -19,7 +19,6 @@
 #include "util_comm.h"
 #include "matrix_manipulate.h"
 #include <string.h>
-// #include <tmk_core/common/eeprom.h>
 #include <platforms/eeprom.h>
 
 #if defined(KEYBOARD_SHARED_EP) && defined(RAW_ENABLE)
@@ -74,7 +73,7 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
             response[2] = UTIL_COMM_RESPONSE_OK;
             {
                 matrix_row_t current_matrix[MATRIX_ROWS];
-                matrix_scan_raw(current_matrix);
+                matrix_scan_custom(current_matrix);
                 char *current_matrix_ptr = (char *)current_matrix;
                 int offset = 0;
                 if (sizeof(current_matrix) > 32-3)
@@ -111,14 +110,15 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
         case UTIL_COMM_GET_KEYBOARD_FILENAME:
             {
                 response[2] = UTIL_COMM_RESPONSE_OK;
-                if (data[3] >= strlen(KEYBOARD_FILENAME) + 1)
-                {
+                if (data[3] >= strlen_P(KEYBOARD_FILENAME) + 1) {
                     response[3] = 0;
                 } else {
                     const char *substring = KEYBOARD_FILENAME + data[3];
-                    size_t substring_length = strlen(substring) + 1;
-                    if (substring_length > RAW_EPSIZE - 3) substring_length = RAW_EPSIZE - 3;
-                    memcpy(&response[3], substring, substring_length);
+                    size_t substring_length = strlen_P(substring) + 1;
+                    if (substring_length > RAW_EPSIZE - 3) {
+                        substring_length = RAW_EPSIZE - 3;
+                    }
+                    memcpy_P(&response[3], substring, substring_length);
                 }
                 break;
             }
@@ -217,7 +217,7 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
         case UTIL_COMM_GET_ROW_STATE:
             {
                 response[2] = UTIL_COMM_RESPONSE_OK;
-                response[3] = test_single(255, 0, NULL);
+                response[3] = scan_physical_column(255, 0, NULL);
                 break;
             }
         default:
