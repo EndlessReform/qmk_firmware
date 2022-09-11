@@ -37,6 +37,7 @@ enum unicode_names {
     MAC_OPT, MAC_CMD, SFT, CHICAGO
 };
 
+/*
 const uint32_t PROGMEM unicode_map[] = {
     [BANG]    = 0x203D,  // ‽
     [IRONY]   = 0x2E2E,  // ⸮    
@@ -50,23 +51,23 @@ const uint32_t PROGMEM unicode_map[] = {
     [MAC_OPT] = 0x2325,  // ⌥
     [SFT]     = 0x21E7,  // ⇧
     [CHICAGO] = 0x2736,  // ✶
-};
-
+};*/
+// XP(2,3), XP(6,7), XP(10,11),
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Base */
     [_BASE] = LAYOUT_ansi_hhkb_split_shift_split_backspace(
-        KC_ESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS, KC_EQL, KC_BSLS, KC_GRV,      XP(0,1), XP(4,5), XP(8,9),
-        KC_TAB,    KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC, KC_BSPC,          XP(2,3), XP(6,7), XP(10,11),
-        LCTL_T(KC_ESC),KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, LT(_MD, KC_SCLN), KC_QUOT, KC_ENT,    DM_REC1, DM_RSTP, DM_REC2,
-        KC_LSFT,         KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSFT, HPT_TOG,     DM_PLY1, KC_UP,   DM_PLY2,
+        KC_ESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS, KC_EQL, KC_BSLS, KC_GRV,      KC_P7,   KC_P8,   KC_P9,
+        KC_TAB,    KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC, KC_BSPC,          KC_P4,   KC_P5,   KC_P6,
+        LCTL_T(KC_ESC),KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, LT(_MD, KC_SCLN), KC_QUOT, KC_ENT,    KC_P1,   KC_P2,   KC_P3,
+        KC_LSFT,         KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_RSFT, HPT_TOG,     KC_P0,   KC_UP,   KC_PDOT,
         LT(_NAV, KC_CAPS), KC_LGUI, KC_LALT,                      KC_SPC,  KC_RALT, LSFT(KC_LGUI), LSFT(KC_RCTRL), KC_LEFT, KC_DOWN, KC_RIGHT
     ),
     [_NAV] = LAYOUT_ansi_hhkb_split_shift_split_backspace(
         KC_GRV, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8,   KC_F9, KC_F10,    KC_F11, KC_F12, KC_INS, KC_DEL,              KC_HOME, KC_UP,   KC_PGUP,
         KC_NO,      KC_VOLD, KC_MSTP, KC_VOLU, KC_NO, KC_NO, KC_END, KC_PGDN, KC_PGUP, KC_HOME, KC_END, KC_UP, KC_NO, KC_DEL,            KC_LEFT, KC_NO,   KC_RIGHT,
         _______,     KC_MPRV, KC_MPLY, KC_MNXT, KC_NO, KC_NO, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_LEFT, LALT(KC_LEFT), LALT(KC_RIGHT), KC_END,  KC_DOWN, KC_PGDN,
-        _______,         KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, AG_TOGG, KC_NO, KC_NO, KC_NO, _______, _______,                KC_INS,  KC_NO,   KC_DEL,
-        _______, KC_NO, _______,                             _______,                           _______, KC_NO, RESET,                  KC_NO,   KC_NO,   KC_NO
+        _______,         KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, AG_TOGG, KC_NO, KC_NO, KC_NO, _______, _______,                       KC_INS,  HPT_DWLI,KC_DEL,
+        _______, KC_NO, _______,                             _______,                           _______, KC_NO, RESET,                   KC_NO,   HPT_DWLD,KC_NO
     ),
     [_MD] = LAYOUT_ansi_hhkb_split_shift_split_backspace(
         _______, H1, H2, H3, MATH,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,             _______, _______, _______,
