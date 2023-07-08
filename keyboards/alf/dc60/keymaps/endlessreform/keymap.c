@@ -15,7 +15,7 @@
  */
 #include QMK_KEYBOARD_H
 /* See QMK combo docs "Dictionary Management" */
-#include "g/keymap_combo.h"
+/*#include "g/keymap_combo.h"*/
 #define _BASE 0
 #define _NAV 1
 #define _MD 2
@@ -118,11 +118,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     - R5: 07
     */
     [_BASE] = LAYOUT_all(
-        KC_ESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS, KC_EQL, KC_BSLS, KC_GRV,
+        QK_LEAD, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS, KC_EQL, KC_BSLS, KC_GRV,
         KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC, KC_BSPC,
         LCTL_T(KC_ESC), KC_A, KC_S, KC_D, LT(_GIT, KC_F), KC_G, KC_H, KC_J, KC_K, KC_L, LT(_MD, KC_SCLN), KC_QUOT, KC_ENT,
-        KC_LSFT, KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, MO(_TOP), KC_UP, MO(_GREEK),
-        MO(_NAV), KC_LGUI, KC_LALT, KC_SPACE, KC_SPACE, KC_SPACE, KC_RALT, LGUI(KC_LSFT), LGUI(KC_LSFT), LGUI(KC_LSFT), LCTL(KC_LSFT)
+        KC_LSFT, KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, LCAG_T(KC_COMM), LCA_T(KC_DOT), LAG_T(KC_SLSH), MO(_TOP), KC_UP, MO(_GREEK),
+        LT(_NAV, KC_CAPS), KC_LGUI, KC_LALT, KC_SPACE, KC_SPACE, KC_SPACE, KC_RALT, LGUI(KC_LSFT), LGUI(KC_LSFT), LGUI(KC_LSFT), LCTL(KC_LSFT)
     ),
 
     [_NAV] = LAYOUT_all(
@@ -130,7 +130,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, KC_VOLD, KC_MSTP, KC_VOLU, _______, _______, KC_END, KC_PGDN, KC_PGUP, KC_HOME, _______, _______, _______, KC_DEL,
         _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, _______, _______, _______,
         _______, KC_LSFT, _______, _______, CMB_TOG, _______, _______, _______, AG_TOGG, _______, _______, _______, KC_CAPS, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, RESET
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, QK_MAKE, QK_BOOT
     ),
 
     [_MD] = LAYOUT_all(
@@ -169,6 +169,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 void matrix_init_user(void) {}
 
 void matrix_scan_user(void) {}
+
+void leader_start_user(void) {
+    // Do nothing when the leader key is pressed
+}
+
+void leader_end_user(void) {
+    if (leader_sequence_two_keys(KC_O, KC_U)) {
+        // Leader, **O**s, **U**pdate
+        SEND_STRING("sudo pacman -Syu")
+    }
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
