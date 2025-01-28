@@ -54,7 +54,7 @@ TAP DANCE
 */
 enum { TD_GAME = 0 };
 
-void td_game(qk_tap_dance_state_t *state, void *user_data) {
+void td_game(tap_dance_state_t *state, void *user_data) {
   if (state->count >= 2) {
     set_single_persistent_default_layer(_BASE);
     reset_tap_dance(state);
@@ -64,7 +64,7 @@ void td_game(qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
-qk_tap_dance_action_t tap_dance_actions[] = {
+tap_dance_action_t tap_dance_actions[] = {
     [TD_GAME] = ACTION_TAP_DANCE_LAYER_MOVE(KC_A, _GAME)
 };
 
@@ -73,7 +73,7 @@ MAIN
 */
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_BASE] = LAYOUT(
-    KC_ESC,         KC_1,   KC_2,   KC_3,   KC_4,      KC_5,   KC_END,  KC_PGDN,  KC_PGUP,  KC_HOME,  KC_6,   KC_7,     KC_8,   KC_9,   KC_0,   KC_DEL,
+    KC_GRV,         KC_1,   KC_2,   KC_3,   KC_4,      KC_5,   KC_END,  KC_PGDN,  KC_PGUP,  KC_HOME,  KC_6,   KC_7,     KC_8,   KC_9,   KC_0,   KC_DEL,
     KC_TAB,         KC_Q,   KC_W,   KC_E,   KC_R,      KC_T,   KC_F9,   KC_F10,   KC_F11,   KC_F12,   KC_Y,   KC_U,     KC_I,   KC_O,   KC_P,   KC_BSPC,
     LCTL_T(KC_ESC), KC_A,   KC_S,   KC_D,   KC_F,      KC_G,   KC_F5,   KC_F6,    KC_F7,    KC_F8,    KC_H,   KC_J,     KC_K,   KC_L,   LT_MSCL,KC_QUOT,
     KC_LSFT,        KC_Z,   KC_X,   KC_C,   KC_V,      KC_B,   KC_F1,   KC_F2,    KC_F3,    KC_F4,    KC_N,   KC_M,     KC_COMM,KC_DOT, KC_SLSH,KC_ENT,
@@ -93,7 +93,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_GRV, KC_F9,  KC_F10, KC_F11, KC_F12, KC_A,   _______,_______,_______,_______,KC_B,   KC_7,   KC_8,   KC_9,   KC_ASTR,KC_EQL,
     _______,KC_F5,  KC_F6,  KC_F7,  KC_F8,  KC_C,   _______,_______,_______,_______,KC_D,   KC_4,   KC_5,   KC_6,   KC_PLUS,KC_MINS,
     KC_BSLS,KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_E,   _______,_______,_______,_______,KC_F,   KC_1,   KC_2,   KC_3,   _______,_______,
-    _______,_______,_______,_______,_______,_______,_______,_______,_______,_______,KC_X,   KC_0,   KC_COMM,KC_DOT, _______,RESET
+    _______,_______,_______,_______,_______,_______,_______,_______,_______,_______,KC_X,   KC_0,   KC_COMM,KC_DOT, _______,QK_BOOT
   ),
 
   [_RAISE] = LAYOUT(
@@ -108,7 +108,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,
     _______,KC_VOLD,KC_MSTP,KC_VOLU,_______,_______,_______,_______,_______,_______,KC_END, KC_PGDN,KC_PGUP,KC_HOME,_______,_______,
     _______,KC_MPRV,KC_MPLY,KC_MNXT,_______,_______,_______,_______,_______,_______,KC_LEFT,KC_DOWN,KC_UP,  KC_RGHT,LALT(KC_LEFT),LALT(KC_RIGHT),
-    _______,_______,_______,CMB_TOG,_______,_______,_______,_______,_______,_______,LCTL(LSFT(KC_LEFT)),LSFT(KC_HOME),LSFT(KC_END),LCTL(LSFT(KC_RIGHT)),_______,_______,
+    _______,_______,_______,QK_COMBO_TOGGLE,_______,_______,_______,_______,_______,_______,LCTL(LSFT(KC_LEFT)),LSFT(KC_HOME),LSFT(KC_END),LCTL(LSFT(KC_RIGHT)),_______,_______,
     _______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______
   ),
 
