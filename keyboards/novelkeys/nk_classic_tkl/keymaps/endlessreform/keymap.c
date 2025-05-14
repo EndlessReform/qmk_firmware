@@ -16,21 +16,29 @@
 #include QMK_KEYBOARD_H
 
 #define _MD 2
-#define _TOP 3
-#define _GREEK 4
+#define _GIT 4
 
 enum my_keycodes {
   RETRO_RGB = QK_USER_0
 };
 
+enum macro_keycodes {
+    GIT_KEY = SAFE_RANGE, DDASH, GIT_RESET, // Git layer
+    TAG, REMOTE, UPSTREAM, ORIGIN, REVERT,
+    PUSH, ADD, STATUS, HARD, COMMIT,
+    REBASE, CHECKOUT,
+    BRANCH, PULL, MERGE, STASH, FETCH, CLONE,
+    LIT_END // Dummy
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [0] = LAYOUT_tkl_ansi_tsangan( /* Base */
-    KC_ESC,  KC_F1,   KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_F6,  KC_F7,  KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,           KC_PSCR, KC_SCRL, KC_PAUS,
+    KC_ESC,  KC_F1,   KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_F6,  KC_F7,  KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,           C(S(G(KC_4))), C(G(KC_Q)), KC_PAUS,
     KC_GRV,  KC_1,    KC_2,   KC_3,   KC_4,   KC_5,   KC_6,   KC_7,   KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC, KC_INS,  KC_HOME, KC_PGUP,
     KC_TAB,  KC_Q,    KC_W,   KC_E,   KC_R,   KC_T,   KC_Y,   KC_U,   KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, KC_DEL,  KC_END,  KC_PGDN,
-    LCTL_T(KC_ESC), KC_A,    KC_S,   KC_D,   KC_F,   KC_G,   KC_H,   KC_J,   KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,
+    LCTL_T(KC_ESC), KC_A,    KC_S,   KC_D,   LT(_GIT, KC_F), KC_G,   KC_H,   KC_J,   KC_K,    KC_L,    LT(_MD, KC_SCLN), KC_QUOT,          KC_ENT,
     KC_LSFT, KC_Z,    KC_X,   KC_C,   KC_V,   KC_B,   KC_N,   KC_M,   KC_COMM, KC_DOT,  KC_SLSH,          KC_RSFT,                   KC_UP,
-    LT(1, KC_CAPS), KC_LGUI, KC_LALT,                KC_SPC,                                            KC_RALT, C(S(KC_LGUI)),   KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT),
+    LT(1, KC_CAPS), KC_LGUI, KC_LALT,                KC_SPC,                                            KC_RALT, C(S(KC_LGUI)),   S(KC_LCTL), KC_LEFT, KC_DOWN, KC_RGHT),
 
 [1] = LAYOUT_tkl_ansi_tsangan( /* FN */
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          KC_VOLU, KC_VOLD, KC_MUTE,
@@ -40,6 +48,38 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, RM_TOGG, RM_NEXT, RM_HUED, RM_HUEU, RM_SATD, RM_SATU, RM_VALD, RM_VALU, RM_SPDD, RM_SPDU,          _______,                   _______,
     _______, _______, _______,                   RETRO_RGB,                                            _______, _______, QK_BOOT, _______, _______, _______),
 
+[2] = LAYOUT_tkl_ansi_tsangan( /* MD, controlled by VIA */
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,                   _______,
+    _______, _______, _______,                   _______,                                            _______, _______, _______, _______, _______, _______),
+
+[3] = LAYOUT_tkl_ansi_tsangan( /* scratch, controlled by VIA */
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,                   _______,
+    _______, _______, _______,                   _______,                                            _______, _______, _______, _______, _______, _______),
+
+[4] = LAYOUT_tkl_ansi_tsangan( /* GIT, start of non-via layers */
+    _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______,            _______, _______, _______,
+    GIT_KEY, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, DDASH,   _______, GIT_RESET, _______, _______, _______,
+    TAG,     _______, _______, _______, REMOTE,  _______, _______, UPSTREAM, _______, ORIGIN, _______, _______, _______, REVERT,   _______, _______, _______,
+    PUSH,    ADD,     STATUS,  _______, _______, _______, HARD, _______,  _______, _______, _______, _______,    COMMIT,
+    REBASE,  _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,          CHECKOUT,           _______,
+    BRANCH,  PULL,    MERGE,                   _______,                                               STASH, FETCH, CLONE,  _______, _______, _______),
+};
+
+static const char PROGMEM *const lit_table[] = {
+    /* git */
+    PSTR("git "), PSTR("--"), PSTR("reset "),
+    PSTR("tag "), PSTR("remote "), PSTR("upstream "), PSTR("origin "), PSTR("revert "),
+    PSTR("push "), PSTR("add "), PSTR("status "), PSTR("hard "), PSTR("commit "),
+    PSTR("rebase "), PSTR("checkout "),
+    PSTR("branch "), PSTR("pull "), PSTR("merge "), PSTR("stash "), PSTR("fetch "), PSTR("clone "), // r5
 };
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
@@ -56,8 +96,10 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-    case RETRO_RGB:
+    if (keycode >= GIT_KEY && keycode < LIT_END && record->event.pressed) {
+        send_string_P(lit_table[keycode - GIT_KEY]);
+        return false;
+    } else if (keycode == RETRO_RGB) {
         if (record->event.pressed) {
             switch (rgb_matrix_get_flags()) {
                 case LED_FLAG_ALL: {
@@ -71,7 +113,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
         }
         return false; // Skip all further processing of this key
-    default:
+    } else {
         return true; // Process all other keycodes normally
     }
 }
