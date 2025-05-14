@@ -15,20 +15,28 @@
  */
 #include QMK_KEYBOARD_H
 
-#define _MD 2
-#define _GIT 4
+#define _MD 4
+#define _GIT 5
 
 enum my_keycodes {
   RETRO_RGB = QK_USER_0
 };
 
 enum macro_keycodes {
-    GIT_KEY = SAFE_RANGE, DDASH, GIT_RESET, // Git layer
-    TAG, REMOTE, UPSTREAM, ORIGIN, REVERT,
-    PUSH, ADD, STATUS, HARD, COMMIT,
-    REBASE, CHECKOUT,
-    BRANCH, PULL, MERGE, STASH, FETCH, CLONE,
-    LIT_END // Dummy
+    /* Markdown */
+    HED1 = SAFE_RANGE, HED2, HED3,
+    TAGGED, PYTHON,
+    CDFC, ALSO, DIVIDER,
+    TASK, BASH,
+
+    /* Git */
+    GIT_KEY, DDASH, GIT_RESET, // Git layer: R1
+    TAG, REMOTE, UPSTREAM, ORIGIN, REVERT, // Git layer: R2
+    PUSH, ADD, STATUS, HARD, COMMIT, // Git layer: R3
+    REBASE, CHECKOUT, // Git layer: R4
+    BRANCH, PULL, MERGE, STASH, FETCH, CLONE, // Git layer: R5
+
+    LIT_END // Literal end
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -41,20 +49,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LT(1, KC_CAPS), KC_LGUI, KC_LALT,                KC_SPC,                                            KC_RALT, C(S(KC_LGUI)),   S(KC_LCTL), KC_LEFT, KC_DOWN, KC_RGHT),
 
 [1] = LAYOUT_tkl_ansi_tsangan( /* FN */
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          KC_VOLU, KC_VOLD, KC_MUTE,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, KC_VOLD, KC_MSTP, KC_VOLU, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, AG_TOGG, _______, _______, _______,          _______,
-    _______, RM_TOGG, RM_NEXT, RM_HUED, RM_HUEU, RM_SATD, RM_SATU, RM_VALD, RM_VALU, RM_SPDD, RM_SPDU,          _______,                   _______,
+    _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______, _______, 
+    _______, RM_TOGG, RM_NEXT, RM_HUED, RM_HUEU, RM_SATD, RM_SATU, AG_TOGG, _______, RM_SPDD, RM_SPDU,          _______,                   _______,
     _______, _______, _______,                   RETRO_RGB,                                            _______, _______, QK_BOOT, _______, _______, _______),
 
-[2] = LAYOUT_tkl_ansi_tsangan( /* MD, controlled by VIA */
+[2] = LAYOUT_tkl_ansi_tsangan( /* scratch, controlled by VIA */
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,                   _______,
     _______, _______, _______,                   _______,                                            _______, _______, _______, _______, _______, _______),
+
 
 [3] = LAYOUT_tkl_ansi_tsangan( /* scratch, controlled by VIA */
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
@@ -64,16 +73,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,                   _______,
     _______, _______, _______,                   _______,                                            _______, _______, _______, _______, _______, _______),
 
-[4] = LAYOUT_tkl_ansi_tsangan( /* GIT, start of non-via layers */
+[_MD] = LAYOUT_tkl_ansi_tsangan( /* MD, controlled by VIA */
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
+    _______, HED1,    HED2,    HED3,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, TAGGED,  _______, _______, _______, _______, PYTHON,  _______, _______, _______, _______, _______, _______,
+    CDFC,    ALSO,    DIVIDER, _______, _______, _______, _______, _______, _______, _______, _______,  _______,_______,
+    _______, _______, _______, TASK,    _______, BASH,    _______, _______, _______, _______, _______,          _______,                   _______,
+    _______, _______, _______,                   _______,                                            _______, _______, _______, _______, _______, _______),
+
+[_GIT] = LAYOUT_tkl_ansi_tsangan( /* GIT, start of non-via layers */
     _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______,            _______, _______, _______,
     GIT_KEY, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, DDASH,   _______, GIT_RESET, _______, _______, _______,
     TAG,     _______, _______, _______, REMOTE,  _______, _______, UPSTREAM, _______, ORIGIN, _______, _______, _______, REVERT,   _______, _______, _______,
     PUSH,    ADD,     STATUS,  _______, _______, _______, HARD, _______,  _______, _______, _______, _______,    COMMIT,
     REBASE,  _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,          CHECKOUT,           _______,
     BRANCH,  PULL,    MERGE,                   _______,                                               STASH, FETCH, CLONE,  _______, _______, _______),
+
 };
 
 static const char PROGMEM *const lit_table[] = {
+    /* markdown */
+    PSTR("# "), PSTR("## "), PSTR("### "),
+    PSTR("tagged: #"), PSTR("```python" SS_TAP(X_ENTER)),
+    PSTR("```"), PSTR("See also: "), PSTR("---" SS_TAP(X_ENTER)),
+    PSTR("- [ ] "), PSTR("```bash" SS_TAP(X_ENTER)),
+
     /* git */
     PSTR("git "), PSTR("--"), PSTR("reset "),
     PSTR("tag "), PSTR("remote "), PSTR("upstream "), PSTR("origin "), PSTR("revert "),
@@ -96,8 +120,8 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (keycode >= GIT_KEY && keycode < LIT_END && record->event.pressed) {
-        send_string_P(lit_table[keycode - GIT_KEY]);
+    if (keycode >= HED1 && keycode < LIT_END && record->event.pressed) {
+        send_string_P(lit_table[keycode - HED1]);
         return false;
     } else if (keycode == RETRO_RGB) {
         if (record->event.pressed) {
