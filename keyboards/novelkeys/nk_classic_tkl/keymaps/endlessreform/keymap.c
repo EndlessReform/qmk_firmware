@@ -33,7 +33,7 @@ enum macro_keycodes {
     GIT_KEY, DDASH, GIT_RESET, // Git layer: R1
     TAG, REMOTE, UPSTREAM, ORIGIN, REVERT, // Git layer: R2
     PUSH, ADD, STATUS, HARD, COMMIT, // Git layer: R3
-    REBASE, CHECKOUT, // Git layer: R4
+    REBASE, GIT_MAIN, CHECKOUT, // Git layer: R4
     BRANCH, PULL, MERGE, STASH, FETCH, CLONE, // Git layer: R5
 
     LIT_END // Literal end
@@ -77,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
     _______, HED1,    HED2,    HED3,    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, TAGGED,  _______, _______, _______, _______, PYTHON,  _______, _______, _______, _______, _______, _______,
-    CDFC,    ALSO,    DIVIDER, _______, _______, _______, _______, _______, _______, _______, _______,  _______,_______,
+    CDFC,    ALSO,    _______, DIVIDER, _______, _______, _______, _______, _______, _______, _______,  _______,_______,
     _______, _______, _______, TASK,    _______, BASH,    _______, _______, _______, _______, _______,          _______,                   _______,
     _______, _______, _______,                   _______,                                            _______, _______, _______, _______, _______, _______),
 
@@ -86,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     GIT_KEY, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, DDASH,   _______, GIT_RESET, _______, _______, _______,
     TAG,     _______, _______, _______, REMOTE,  _______, _______, UPSTREAM, _______, ORIGIN, _______, _______, _______, REVERT,   _______, _______, _______,
     PUSH,    ADD,     STATUS,  _______, _______, _______, HARD, _______,  _______, _______, _______, _______,    COMMIT,
-    REBASE,  _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,          CHECKOUT,           _______,
+    REBASE,  _______, _______, _______, _______, _______, _______, GIT_MAIN,  _______, _______, _______,          CHECKOUT,           _______,
     BRANCH,  PULL,    MERGE,                   _______,                                               STASH, FETCH, CLONE,  _______, _______, _______),
 
 };
@@ -102,7 +102,7 @@ static const char PROGMEM *const lit_table[] = {
     PSTR("git "), PSTR("--"), PSTR("reset "),
     PSTR("tag "), PSTR("remote "), PSTR("upstream "), PSTR("origin "), PSTR("revert "),
     PSTR("push "), PSTR("add "), PSTR("status "), PSTR("hard "), PSTR("commit "),
-    PSTR("rebase "), PSTR("checkout "),
+    PSTR("rebase "), PSTR("main "), PSTR("checkout "),
     PSTR("branch "), PSTR("pull "), PSTR("merge "), PSTR("stash "), PSTR("fetch "), PSTR("clone "), // r5
 };
 
