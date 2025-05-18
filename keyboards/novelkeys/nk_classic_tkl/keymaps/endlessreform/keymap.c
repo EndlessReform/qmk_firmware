@@ -20,13 +20,14 @@
 #define _FN 2
 #define _MD 4
 #define _GIT 5
+#define _TOP 6
 
 enum macro_keycodes {
     /* Base layers*/
     RETRO_RGB = QK_USER_0,
     MAC_TOGGLE,
 
-    /* Markdown */
+    /* START OF MACROS: Markdown */
     HED1, HED2, HED3,
     TAGGED, PYTHON,
     CDFC, ALSO, DIVIDER,
@@ -39,6 +40,13 @@ enum macro_keycodes {
     REBASE, GIT_MAIN, CHECKOUT, // Git layer: R4
     BRANCH, PULL, MERGE, STASH, FETCH, CLONE, // Git layer: R5
 
+    /* Space cadet */
+    NOT, MATH, EXP, MUL, SSCRIPT, SUM, // R1
+    AND, OR, UNION, INTERSECTION, SUBSET, SUPERSET, FORALL, INFTY, EXISTS, PARTIAL, LBRACE, RBRACE,
+    BEGIN, LX_FALSE, LX_TRUE, PROVES, DASHV, LX_UP, LX_DOWN, LX_LEFT, LX_RGHT, IFF, PRIME, LX_END,
+    LLCORNER, ULCORNER, NEQ, SIMEQ, EQUIV, LEQ, GEQ, ELLIPSIS, FRAC,
+    DEL_SPC,
+
     LIT_END // Literal end
 };
 
@@ -48,7 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_GRV,  KC_1,    KC_2,   KC_3,   KC_4,   KC_5,   KC_6,   KC_7,   KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC, KC_INS,  KC_HOME, KC_PGUP,
     KC_TAB,  KC_Q,    KC_W,   KC_E,   KC_R,   KC_T,   KC_Y,   KC_U,   KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, KC_DEL,  KC_END,  KC_PGDN,
     LCTL_T(KC_ESC), KC_A,    KC_S,   KC_D,   LT(_GIT, KC_F), KC_G,   KC_H,   KC_J,   KC_K,    KC_L,    LT(_MD, KC_SCLN), KC_QUOT,          KC_ENT,
-    KC_LSFT, KC_Z,    KC_X,   KC_C,   KC_V,   KC_B,   KC_N,   KC_M,   KC_COMM, KC_DOT,  KC_SLSH,          KC_RSFT,                   KC_UP,
+    KC_LSFT, KC_Z,    KC_X,   KC_C,   KC_V,   KC_B,   KC_N,   KC_M,   KC_COMM, KC_DOT,  KC_SLSH,          MO(_TOP),                   KC_UP,
     LT(_FN, KC_CAPS), KC_LGUI, KC_LALT,                KC_SPC,                                            KC_RALT, S(KC_LGUI),   S(KC_LCTL), KC_LEFT, KC_DOWN, KC_RGHT),
 
 [_MAC] = LAYOUT_tkl_ansi_tsangan( /* scratch, controlled by VIA */
@@ -92,6 +100,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     REBASE,  _______, _______, _______, _______, _______, _______, GIT_MAIN,  _______, _______, _______,          CHECKOUT,           _______,
     BRANCH,  PULL,    MERGE,                   _______,                                               STASH, FETCH, CLONE,  _______, _______, _______),
 
+[_TOP] = LAYOUT_tkl_ansi_tsangan( /* scratch, controlled by VIA */
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
+    _______, NOT,     _______, _______, MATH,    _______, EXP,     _______, MUL,     _______, _______, SSCRIPT, SUM,     _______, _______, _______, _______,
+    _______, AND,     OR,     UNION,    INTERSECTION, SUBSET, SUPERSET, FORALL, INFTY, EXISTS, PARTIAL, LBRACE, RBRACE, _______, _______, _______, _______,
+    BEGIN,   LX_FALSE,LX_TRUE,PROVES,   DASHV,   LX_UP,   LX_DOWN, LX_LEFT, LX_RGHT, IFF,     _______, PRIME, LX_END,
+    _______, LLCORNER,ULCORNER,NEQ,     SIMEQ,   EQUIV,   LEQ,     GEQ,     _______, ELLIPSIS,FRAC, _______,                             _______, 
+    _______, _______, _______,                   DEL_SPC,                                            _______, _______, _______, _______, _______, _______),
+
 };
 
 static const char PROGMEM *const lit_table[] = {
@@ -107,6 +123,13 @@ static const char PROGMEM *const lit_table[] = {
     PSTR("push "), PSTR("add "), PSTR("status "), PSTR("hard "), PSTR("commit "),
     PSTR("rebase "), PSTR("main "), PSTR("checkout "),
     PSTR("branch "), PSTR("pull "), PSTR("merge "), PSTR("stash "), PSTR("fetch "), PSTR("clone "), // r5
+
+    /* LaTeX */
+    PSTR("\\neg "), PSTR("$$" SS_TAP(X_LEFT)), PSTR("^{}" SS_TAP(X_LEFT)), PSTR("\\cdot "), PSTR("_{}" SS_TAP(X_LEFT)), PSTR("\\sum"),
+    PSTR("\\land "), PSTR("\\lor "), PSTR("\\cup "), PSTR("\\cap "), PSTR("\\subset "), PSTR("\\supset "), PSTR("\\forall "), PSTR("\\infty "), PSTR("\\exists "), PSTR("\\partial "), PSTR("\\{ "), PSTR("\\} "),
+    PSTR("\\begin{}" SS_TAP(X_LEFT)), PSTR("\\top "), PSTR("\\bot "), PSTR("\\vdash "), PSTR("\\dashv "), PSTR("\\uparrow "), PSTR("\\downarrow "), PSTR("\\leftarrow "), PSTR("\\rightarrow "), PSTR("\\iff "), PSTR("\\prime "), PSTR("\\end{}" SS_TAP(X_LEFT)),
+    PSTR("\\llcorner "), PSTR("\\ulcorner "), PSTR("\\neq "), PSTR("\\simeq "), PSTR("\\equiv "), PSTR("\\leq "), PSTR("\\geq "), PSTR("\\ldots "), PSTR("\\frac{}{}" SS_TAP(X_LEFT)),
+    PSTR(SS_TAP(X_BSPC) SS_TAP(X_RIGHT)),
 };
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
