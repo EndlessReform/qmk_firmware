@@ -22,6 +22,8 @@
 #define _GIT 5
 #define _TOP 6
 
+#include "quantum.h"
+
 enum macro_keycodes {
     /* Base layers*/
     RETRO_RGB = QK_USER_0,
@@ -71,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, KC_VOLD, KC_MSTP, KC_VOLU, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______, _______, 
+    _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______, _______,
     _______, RM_TOGG, RM_NEXT, RM_HUED, RM_HUEU, RM_SATD, RM_SATU, MAC_TOGGLE, _______, RM_SPDD, RM_SPDU,          _______,                   _______,
     _______, _______, _______,                   RETRO_RGB,                                            _______, _______, QK_BOOT, _______, _______, _______),
 
@@ -105,7 +107,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, NOT,     _______, _______, MATH,    _______, EXP,     _______, MUL,     _______, _______, SSCRIPT, SUM,     _______, _______, _______, _______,
     _______, AND,     OR,     UNION,    INTERSECTION, SUBSET, SUPERSET, FORALL, INFTY, EXISTS, PARTIAL, LBRACE, RBRACE, _______, _______, _______, _______,
     BEGIN,   LX_FALSE,LX_TRUE,PROVES,   DASHV,   LX_UP,   LX_DOWN, LX_LEFT, LX_RGHT, IFF,     _______, PRIME, LX_END,
-    _______, LLCORNER,ULCORNER,NEQ,     SIMEQ,   EQUIV,   LEQ,     GEQ,     _______, ELLIPSIS,FRAC, _______,                             _______, 
+    _______, LLCORNER,ULCORNER,NEQ,     SIMEQ,   EQUIV,   LEQ,     GEQ,     _______, ELLIPSIS,FRAC, _______,                             _______,
     _______, _______, _______,                   DEL_SPC,                                            _______, _______, _______, _______, _______, _______),
 
 };
@@ -173,5 +175,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false; // Skip all further processing of this key
     } else {
         return true; // Process all other keycodes normally
+    }
+}
+
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LCTL_T(KC_ESC):  // your home-row Ctrl/Esc key
+            return true;      // treat as HOLD immediately if another key is pressed
+        default:
+            return false;
     }
 }
