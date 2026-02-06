@@ -15,15 +15,17 @@
  */
 #include QMK_KEYBOARD_H
 
-#define _BASE 0
+#define _MAC  0
 #define _FN   1
-#define _MAC  2
+#define _WIN  2
 #define _MD   4
 #define _GIT  5
 #define _TOP  6
 
 enum macro_keycodes {
-    MAC_TOGGLE = QK_USER_0,
+    RH_COPT = SAFE_RANGE,
+    RH_GSFT,
+    RH_CSFT,
 
     /* START OF MACROS: Markdown */
     HED1,
@@ -106,31 +108,29 @@ enum macro_keycodes {
     LIT_END /* Literal end */
 };
 
+#define BASE_LAYOUT(LEFT_ALT, LEFT_GUI) \
+    LAYOUT_ansi_82( \
+        KC_ESC,          KC_F1,   KC_F2,   KC_F3,            KC_F4,            KC_F5,   KC_F6,    KC_F7,   KC_F8,    KC_F9,   KC_F10,  KC_F11,  KC_F12,            C(S(G(KC_4))), C(G(KC_Q)), \
+        KC_GRV,          KC_1,    KC_2,    KC_3,             KC_4,             KC_5,    KC_6,     KC_7,    KC_8,     KC_9,    KC_0,    KC_MINS, KC_EQL,            KC_BSPC,        KC_INS, \
+        KC_TAB,          KC_Q,    KC_W,    KC_E,             KC_R,             KC_T,    KC_Y,     KC_U,    KC_I,     KC_O,    KC_P,    KC_LBRC, KC_RBRC,           KC_BSLS,        KC_DEL, \
+        LCTL_T(KC_ESC),  KC_A,    KC_S,    KC_D,             LT(_GIT, KC_F),   KC_G,    KC_H,     KC_J,    KC_K,     KC_L,    LT(_MD, KC_SCLN), KC_QUOT,       KC_ENT,         KC_HOME, \
+        KC_LSFT,                   KC_Z,    KC_X,             KC_C,             KC_V,    KC_B,     KC_N,    KC_M,     KC_COMM, KC_DOT,  KC_SLSH,                    MO(_TOP),       KC_UP, \
+        LT(_FN, KC_CAPS), LEFT_ALT, LEFT_GUI,                                  KC_SPC,                                 RH_COPT, RH_GSFT, RH_CSFT, KC_LEFT, KC_DOWN, KC_RGHT \
+    )
+
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-[_BASE] = LAYOUT_ansi_82( /* Base */
-    KC_ESC,          KC_F1,   KC_F2,   KC_F3,            KC_F4,            KC_F5,   KC_F6,    KC_F7,   KC_F8,    KC_F9,   KC_F10,  KC_F11,  KC_F12,            C(S(G(KC_4))), C(G(KC_Q)),
-    KC_GRV,          KC_1,    KC_2,    KC_3,             KC_4,             KC_5,    KC_6,     KC_7,    KC_8,     KC_9,    KC_0,    KC_MINS, KC_EQL,            KC_BSPC,        KC_INS,
-    KC_TAB,          KC_Q,    KC_W,    KC_E,             KC_R,             KC_T,    KC_Y,     KC_U,    KC_I,     KC_O,    KC_P,    KC_LBRC, KC_RBRC,           KC_BSLS,        KC_DEL,
-    LCTL_T(KC_ESC),  KC_A,    KC_S,    KC_D,             LT(_GIT, KC_F),   KC_G,    KC_H,     KC_J,    KC_K,     KC_L,    LT(_MD, KC_SCLN), KC_QUOT,       KC_ENT,         KC_HOME,
-    KC_LSFT,                   KC_Z,    KC_X,             KC_C,             KC_V,    KC_B,     KC_N,    KC_M,     KC_COMM, KC_DOT,  KC_SLSH,                    MO(_TOP),       KC_UP,
-    LT(_FN, KC_CAPS), KC_LGUI, KC_LALT,                                    KC_SPC,                                 KC_RALT, S(KC_LGUI), S(KC_LCTL), KC_LEFT, KC_DOWN, KC_RGHT),
+[_MAC] = BASE_LAYOUT(KC_LALT, KC_LGUI), /* Mac base */
 
 [_FN] = LAYOUT_ansi_82( /* FN */
     _______,         KC_BRID, KC_BRIU, KC_MCTL,          KC_LPAD,          _______, _______,  KC_MPRV, KC_MPLY,  KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU,           _______,        _______,
     _______,         _______, _______, _______,           _______,           _______, _______,  _______, _______,   _______, _______, _______, _______,           _______,        _______,
     _______,         KC_VOLD, KC_MSTP, KC_VOLU,          _______,           _______, _______,  _______, _______,   _______, _______, _______, _______,           _______,        _______,
     _______,         KC_MPRV, KC_MPLY, KC_MNXT,          _______,           _______, KC_LEFT,  KC_DOWN, KC_UP,    KC_RGHT, _______, _______,                   _______,        _______,
-    _______,                  _______, _______,           _______,           _______, _______,  MAC_TOGGLE, _______, _______, _______, _______,                  _______,        _______,
+    _______,                  _______, _______,           _______,           _______, _______,  _______,    _______, _______, _______, _______,                  _______,        _______,
     _______,         _______, _______,                                    _______,                                 _______, _______, QK_BOOT,   _______, _______, _______),
 
-[_MAC] = LAYOUT_ansi_82( /* Base with persistent left Alt/GUI swap */
-    KC_ESC,          KC_F1,   KC_F2,   KC_F3,            KC_F4,            KC_F5,   KC_F6,    KC_F7,   KC_F8,    KC_F9,   KC_F10,  KC_F11,  KC_F12,            C(S(G(KC_4))), C(G(KC_Q)),
-    KC_GRV,          KC_1,    KC_2,    KC_3,             KC_4,             KC_5,    KC_6,     KC_7,    KC_8,     KC_9,    KC_0,    KC_MINS, KC_EQL,            KC_BSPC,        KC_INS,
-    KC_TAB,          KC_Q,    KC_W,    KC_E,             KC_R,             KC_T,    KC_Y,     KC_U,    KC_I,     KC_O,    KC_P,    KC_LBRC, KC_RBRC,           KC_BSLS,        KC_DEL,
-    LCTL_T(KC_ESC),  KC_A,    KC_S,    KC_D,             LT(_GIT, KC_F),   KC_G,    KC_H,     KC_J,    KC_K,     KC_L,    LT(_MD, KC_SCLN), KC_QUOT,       KC_ENT,         KC_HOME,
-    KC_LSFT,                   KC_Z,    KC_X,             KC_C,             KC_V,    KC_B,     KC_N,    KC_M,     KC_COMM, KC_DOT,  KC_SLSH,                    MO(_TOP),       KC_UP,
-    LT(_FN, KC_CAPS), KC_LALT, KC_LGUI,                                    KC_SPC,                                 KC_RALT, S(KC_LGUI), S(KC_LCTL), KC_LEFT, KC_DOWN, KC_RGHT),
+[_WIN] = BASE_LAYOUT(KC_LGUI, KC_LALT), /* Windows base on layer 2 */
 
 [_MD] = LAYOUT_ansi_82( /* Markdown */
     _______,         _______, _______, _______,           _______,           _______, _______,  _______, _______,   _______, _______, _______, _______,           _______,        _______,
@@ -239,14 +239,30 @@ static const char PROGMEM *const lit_table[] = {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (keycode == MAC_TOGGLE && record->event.pressed) {
-        // Persistently swap between BASE and MAC default layers.
-        if (get_highest_layer(default_layer_state) == _MAC) {
-            set_single_persistent_default_layer(_BASE);
-        } else {
-            set_single_persistent_default_layer(_MAC);
-        }
-        return false;
+    switch (keycode) {
+        case RH_COPT:
+            if (record->event.pressed) {
+                register_mods(MOD_MASK_CTRL | MOD_MASK_ALT);
+            } else {
+                unregister_mods(MOD_MASK_CTRL | MOD_MASK_ALT);
+            }
+            return false;
+        case RH_GSFT:
+            if (record->event.pressed) {
+                register_mods(MOD_MASK_GUI | MOD_MASK_SHIFT);
+            } else {
+                unregister_mods(MOD_MASK_GUI | MOD_MASK_SHIFT);
+            }
+            return false;
+        case RH_CSFT:
+            if (record->event.pressed) {
+                register_mods(MOD_MASK_CTRL | MOD_MASK_SHIFT);
+            } else {
+                unregister_mods(MOD_MASK_CTRL | MOD_MASK_SHIFT);
+            }
+            return false;
+        default:
+            break;
     }
 
     if (keycode >= HED1 && keycode < LIT_END && record->event.pressed) {
@@ -259,9 +275,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-    [_BASE] = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
-    [_FN]   = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
     [_MAC]  = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
+    [_FN]   = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
+    [_WIN]  = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
     [_MD]   = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
     [_GIT]  = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
     [_TOP]  = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
