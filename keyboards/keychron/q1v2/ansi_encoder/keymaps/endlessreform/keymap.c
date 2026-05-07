@@ -137,7 +137,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,         HED1,    HED2,    HED3,             _______,           _______, _______,  _______, _______,   _______, _______, _______, _______,           _______,        _______,
     _______,         _______, _______, _______,           _______,           TAGGED,  _______,  _______, _______,   _______, PYTHON,  _______, _______,           _______,        _______,
     CDFC,            ALSO,    _______, DIVIDER,          _______,           _______, _______,  _______, _______,   _______, _______, _______,                   _______,        _______,
-    _______,                  _______, TASK,              _______,           BASH,    _______,  _______, _______,   _______, _______, _______,                  _______,        _______,
+    _______,                  _______, _______,           TASK,              _______,  BASH,     _______, _______,   _______, _______, _______,                  _______,        _______,
     _______,         _______, _______,                                    _______,                                 _______, _______, _______,  _______, _______, _______),
 
 [_GIT] = LAYOUT_ansi_82( /* Git */
@@ -237,6 +237,7 @@ static const char PROGMEM *const lit_table[] = {
     PSTR("\\frac{}{}" SS_TAP(X_LEFT)),
     PSTR(SS_TAP(X_BSPC) SS_TAP(X_RIGHT)),
 };
+_Static_assert((LIT_END - HED1) == ARRAY_SIZE(lit_table), "literal keycodes and lit_table are out of sync");
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
