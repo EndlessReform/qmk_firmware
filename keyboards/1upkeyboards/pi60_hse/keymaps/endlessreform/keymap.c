@@ -22,13 +22,14 @@ enum layers {
     _GIT,
 };
 
-enum macro_keycodes {
-    RH_COPT = SAFE_RANGE,
-    RH_GSFT,
-    RH_CSFT,
+#define RH_COPT RCA_T(KC_LEFT)
+#define RH_GSFT RSG_T(KC_RGHT)
+#define RH_CSFT LCTL(KC_LSFT)
+#define MAC_PSC C(S(G(KC_4)))
 
+enum macro_keycodes {
     /* Markdown */
-    HED1,
+    HED1 = SAFE_RANGE,
     HED2,
     HED3,
     TAGGED,
@@ -78,7 +79,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_FN] = LAYOUT_60_ansi_split_bs_rshift(
     KC_ESC,          KC_F1,   KC_F2,   KC_F3,            KC_F4,            KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_DEL,  _______,
-    _______,         KC_VOLD, KC_MSTP, KC_VOLU,          _______,          _______, KC_END,  KC_PGDN, KC_PGUP, KC_HOME, _______, _______, _______, KC_DEL,
+    _______,         KC_VOLD, KC_MSTP, KC_VOLU,          _______,          _______, KC_END,  KC_PGDN, KC_PGUP, KC_HOME, MAC_PSC, _______, _______, KC_DEL,
     _______,         KC_MPRV, KC_MPLY, KC_MNXT,          _______,          _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______, _______,
     _______,                  _______, _______,          _______,          _______, _______, _______, _______, _______, _______, QK_BOOT, _______, _______,
     _______,         _______, _______,                                     _______,                               _______, _______, _______, QK_BOOT
@@ -142,32 +143,6 @@ static const char PROGMEM *const lit_table[] = {
 _Static_assert((LIT_END - HED1) == ARRAY_SIZE(lit_table), "literal keycodes and lit_table are out of sync");
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case RH_COPT:
-            if (record->event.pressed) {
-                register_mods(MOD_MASK_CTRL | MOD_MASK_ALT);
-            } else {
-                unregister_mods(MOD_MASK_CTRL | MOD_MASK_ALT);
-            }
-            return false;
-        case RH_GSFT:
-            if (record->event.pressed) {
-                register_mods(MOD_MASK_GUI | MOD_MASK_SHIFT);
-            } else {
-                unregister_mods(MOD_MASK_GUI | MOD_MASK_SHIFT);
-            }
-            return false;
-        case RH_CSFT:
-            if (record->event.pressed) {
-                register_mods(MOD_MASK_CTRL | MOD_MASK_SHIFT);
-            } else {
-                unregister_mods(MOD_MASK_CTRL | MOD_MASK_SHIFT);
-            }
-            return false;
-        default:
-            break;
-    }
-
     if (keycode >= HED1 && keycode < LIT_END && record->event.pressed) {
         send_string_P(lit_table[keycode - HED1]);
         return false;
