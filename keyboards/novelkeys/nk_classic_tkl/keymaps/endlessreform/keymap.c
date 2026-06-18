@@ -36,11 +36,12 @@ enum macro_keycodes {
     TASK, BASH,
 
     /* Git */
-    GIT_KEY, DDASH, GIT_RESET, // Git layer: R1
-    TAG, REMOTE, UPSTREAM, ORIGIN, REVERT, // Git layer: R2
+    GIT_KEY, DDASH, COMMIT_RANGE, GIT_RESET, // Git layer: R1
+    TAG, REMOTE, UPSTREAM, ORIGIN, CHERRY_PICK, REVERT, // Git layer: R2
     PUSH, ADD, STATUS, HARD, COMMIT, // Git layer: R3
     REBASE, GIT_MAIN, CHECKOUT, // Git layer: R4
     BRANCH, PULL, MERGE, STASH, FETCH, CLONE, // Git layer: R5
+    GITUI,
 
     /* Space cadet */
     NOT, MATH, EXP, MUL, SSCRIPT, SUM, // R1
@@ -96,8 +97,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_GIT] = LAYOUT_tkl_ansi_tsangan( /* GIT, start of non-via layers */
     _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______,            _______, _______, _______,
-    GIT_KEY, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, DDASH,   _______, GIT_RESET, _______, _______, _______,
-    TAG,     _______, _______, _______, REMOTE,  _______, _______, UPSTREAM, _______, ORIGIN, _______, _______, _______, REVERT,   _______, _______, _______,
+    GIT_KEY, _______, _______, _______, _______, _______, COMMIT_RANGE, _______,  _______, _______, _______, DDASH,   _______, GIT_RESET, _______, _______, _______,
+    TAG,     _______, _______, _______, REMOTE,  _______, _______, UPSTREAM, GITUI,   ORIGIN, CHERRY_PICK, _______, _______, REVERT,   _______, _______, _______,
     PUSH,    ADD,     STATUS,  _______, _______, _______, HARD, _______,  _______, _______, _______, _______,    COMMIT,
     REBASE,  _______, _______, _______, _______, _______, _______, GIT_MAIN,  _______, _______, _______,          CHECKOUT,           _______,
     BRANCH,  PULL,    MERGE,                   _______,                                               STASH, FETCH, CLONE,  _______, _______, _______),
@@ -120,11 +121,12 @@ static const char PROGMEM *const lit_table[] = {
     PSTR("- [ ] "), PSTR("```bash" SS_TAP(X_ENTER)),
 
     /* git */
-    PSTR("git "), PSTR("--"), PSTR("reset "),
-    PSTR("tag "), PSTR("remote "), PSTR("upstream "), PSTR("origin "), PSTR("revert "),
+    PSTR("git "), PSTR("--"), PSTR("^.."), PSTR("reset "),
+    PSTR("tag "), PSTR("remote "), PSTR("upstream "), PSTR("origin "), PSTR("cherry-pick "), PSTR("revert "),
     PSTR("push "), PSTR("add "), PSTR("status "), PSTR("hard "), PSTR("commit "),
     PSTR("rebase "), PSTR("main "), PSTR("checkout "),
     PSTR("branch "), PSTR("pull "), PSTR("merge "), PSTR("stash "), PSTR("fetch "), PSTR("clone "), // r5
+    PSTR("gitui" SS_TAP(X_ENTER)),
 
     /* LaTeX */
     PSTR("\\neg "), PSTR("$$" SS_TAP(X_LEFT)), PSTR("^{}" SS_TAP(X_LEFT)), PSTR("\\cdot "), PSTR("_{}" SS_TAP(X_LEFT)), PSTR("\\sum"),

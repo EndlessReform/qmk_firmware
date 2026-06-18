@@ -42,11 +42,13 @@ enum macro_keycodes {
     /* Git */
     GIT_KEY,
     DDASH,
+    COMMIT_RANGE,
     GIT_RESET, /* Git layer: R1 */
     TAG,
     REMOTE,
     UPSTREAM,
     ORIGIN,
+    CHERRY_PICK,
     REVERT, /* Git layer: R2 */
     PUSH,
     ADD,
@@ -62,6 +64,7 @@ enum macro_keycodes {
     STASH,
     FETCH,
     CLONE, /* Git layer: R5 */
+    GITUI,
 
     /* Space cadet */
     NOT,
@@ -142,8 +145,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_GIT] = LAYOUT_ansi_82( /* Git */
     _______,         _______, _______, _______,           _______,           _______, _______,  _______,  _______,   _______, _______, _______, _______,           _______,        _______,
-    GIT_KEY,         _______, _______, _______,           _______,           _______, _______,  _______,  _______,   _______, _______, DDASH,   _______,           GIT_RESET,      _______,
-    TAG,             _______, _______, _______,           REMOTE,            _______, _______,  UPSTREAM, _______,   ORIGIN,  _______, _______, _______,           REVERT,         _______,
+    GIT_KEY,         _______, _______, _______,           _______,           _______, COMMIT_RANGE, _______,  _______,   _______, _______, DDASH,   _______,           GIT_RESET,      _______,
+    TAG,             _______, _______, _______,           REMOTE,            _______, _______,  UPSTREAM, GITUI,     ORIGIN,  CHERRY_PICK, _______, _______,           REVERT,         _______,
     PUSH,            ADD,     STATUS,  _______,           _______,           _______, HARD,     _______,  _______,   _______, _______, _______,                   COMMIT,         _______,
     REBASE,                   _______, _______,           _______,           _______, _______,  GIT_MAIN, _______,   _______, _______, _______,                  CHECKOUT,       _______,
     BRANCH,          PULL,    MERGE,                                     _______,                                 STASH,   FETCH,   CLONE,    _______, _______, _______),
@@ -174,11 +177,13 @@ static const char PROGMEM *const lit_table[] = {
     /* git */
     PSTR("git "),
     PSTR("--"),
+    PSTR("^.."),
     PSTR("reset "),
     PSTR("tag "),
     PSTR("remote "),
     PSTR("upstream "),
     PSTR("origin "),
+    PSTR("cherry-pick "),
     PSTR("revert "),
     PSTR("push "),
     PSTR("add "),
@@ -194,6 +199,7 @@ static const char PROGMEM *const lit_table[] = {
     PSTR("stash "),
     PSTR("fetch "),
     PSTR("clone "),
+    PSTR("gitui" SS_TAP(X_ENTER)),
 
     /* LaTeX */
     PSTR("\\neg "),
