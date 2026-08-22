@@ -36,11 +36,12 @@ enum macro_keycodes {
     TASK, BASH,
 
     /* Git */
-    GIT_KEY, DDASH, GIT_RESET, // Git layer: R1
-    TAG, REMOTE, UPSTREAM, ORIGIN, REVERT, // Git layer: R2
+    GIT_KEY, DDASH, COMMIT_RANGE, GIT_RESET, // Git layer: R1
+    TAG, REMOTE, UPSTREAM, ORIGIN, CHERRY_PICK, REVERT, // Git layer: R2
     PUSH, ADD, STATUS, HARD, COMMIT, // Git layer: R3
     REBASE, GIT_MAIN, CHECKOUT, // Git layer: R4
     BRANCH, PULL, MERGE, STASH, FETCH, CLONE, // Git layer: R5
+    GITUI,
 
     /* Space cadet */
     NOT, MATH, EXP, MUL, SSCRIPT, SUM, // R1
@@ -96,8 +97,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_GIT] = LAYOUT_tkl_ansi_tsangan( /* GIT, start of non-via layers */
     _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______,            _______, _______, _______,
-    GIT_KEY, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, DDASH,   _______, GIT_RESET, _______, _______, _______,
-    TAG,     _______, _______, _______, REMOTE,  _______, _______, UPSTREAM, _______, ORIGIN, _______, _______, _______, REVERT,   _______, _______, _______,
+    GIT_KEY, _______, _______, _______, _______, _______, COMMIT_RANGE, _______,  _______, _______, _______, DDASH,   _______, GIT_RESET, _______, _______, _______,
+    TAG,     _______, _______, _______, REMOTE,  _______, _______, UPSTREAM, GITUI,   ORIGIN, CHERRY_PICK, _______, _______, REVERT,   _______, _______, _______,
     PUSH,    ADD,     STATUS,  _______, _______, _______, HARD, _______,  _______, _______, _______, _______,    COMMIT,
     REBASE,  _______, _______, _______, _______, _______, _______, GIT_MAIN,  _______, _______, _______,          CHECKOUT,           _______,
     BRANCH,  PULL,    MERGE,                   _______,                                               STASH, FETCH, CLONE,  _______, _______, _______),
@@ -120,11 +121,12 @@ static const char PROGMEM *const lit_table[] = {
     PSTR("- [ ] "), PSTR("```bash" SS_TAP(X_ENTER)),
 
     /* git */
-    PSTR("git "), PSTR("--"), PSTR("reset "),
-    PSTR("tag "), PSTR("remote "), PSTR("upstream "), PSTR("origin "), PSTR("revert "),
+    PSTR("git "), PSTR("--"), PSTR("^.."), PSTR("reset "),
+    PSTR("tag "), PSTR("remote "), PSTR("upstream "), PSTR("origin "), PSTR("cherry-pick "), PSTR("revert "),
     PSTR("push "), PSTR("add "), PSTR("status "), PSTR("hard "), PSTR("commit "),
     PSTR("rebase "), PSTR("main "), PSTR("checkout "),
     PSTR("branch "), PSTR("pull "), PSTR("merge "), PSTR("stash "), PSTR("fetch "), PSTR("clone "), // r5
+    PSTR("gitui" SS_TAP(X_ENTER)),
 
     /* LaTeX */
     PSTR("\\neg "), PSTR("$$" SS_TAP(X_LEFT)), PSTR("^{}" SS_TAP(X_LEFT)), PSTR("\\cdot "), PSTR("_{}" SS_TAP(X_LEFT)), PSTR("\\sum"),
@@ -134,16 +136,43 @@ static const char PROGMEM *const lit_table[] = {
     PSTR(SS_TAP(X_BSPC) SS_TAP(X_RIGHT)),
 };
 
+void keyboard_post_init_user(void) {
+    // Limit RGB effects to the six diffuser LEDs. The indicator callback below
+    // replaces the effect color with the current Caps Lock or layer status.
+    rgb_matrix_set_flags_noeeprom(LED_FLAG_INDICATOR);
+}
+
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    if (host_keyboard_led_state().caps_lock) {
-        for (uint8_t i = 50; i <= 55; i++) {
-            rgb_matrix_set_color(i, 255, 86, 0);
-        }
-    } else if ((rgb_matrix_get_mode() == RGB_MATRIX_TYPING_HEATMAP) || (rgb_matrix_get_mode() == RGB_MATRIX_DIGITAL_RAIN)) {
-        for (uint8_t i = 50; i <= 55; i++) {
-            rgb_matrix_set_color(i, 0, 0, 0);
+    uint8_t red   = 0;
+    uint8_t green = 0;
+    uint8_t blue  = 0;
+
+    switch (get_highest_layer(layer_state)) {
+        case _TOP: // Space Cadet / LaTeX
+            red   = 0x34;
+            green = 0x78;
+            blue  = 0xF6;
+            break;
+        case _GIT:
+            red   = 0xFF;
+            green = 0x44;
+            blue  = 0x00;
+            break;
+        default:
+            if (host_keyboard_led_state().caps_lock) {
+                red   = 0xFF;
+                green = 0x20;
+                blue  = 0x20;
+            }
+            break;
+    }
+
+    for (uint8_t i = led_min; i < led_max; i++) {
+        if (HAS_ANY_FLAGS(g_led_config.flags[i], LED_FLAG_INDICATOR)) {
+            rgb_matrix_set_color(i, red, green, blue);
         }
     }
+
     return false;
 }
 
