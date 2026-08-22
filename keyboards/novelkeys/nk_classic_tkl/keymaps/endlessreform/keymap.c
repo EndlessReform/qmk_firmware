@@ -136,16 +136,43 @@ static const char PROGMEM *const lit_table[] = {
     PSTR(SS_TAP(X_BSPC) SS_TAP(X_RIGHT)),
 };
 
+void keyboard_post_init_user(void) {
+    // Limit RGB effects to the six diffuser LEDs. The indicator callback below
+    // replaces the effect color with the current Caps Lock or layer status.
+    rgb_matrix_set_flags_noeeprom(LED_FLAG_INDICATOR);
+}
+
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    if (host_keyboard_led_state().caps_lock) {
-        for (uint8_t i = 50; i <= 55; i++) {
-            rgb_matrix_set_color(i, 255, 86, 0);
-        }
-    } else if ((rgb_matrix_get_mode() == RGB_MATRIX_TYPING_HEATMAP) || (rgb_matrix_get_mode() == RGB_MATRIX_DIGITAL_RAIN)) {
-        for (uint8_t i = 50; i <= 55; i++) {
-            rgb_matrix_set_color(i, 0, 0, 0);
+    uint8_t red   = 0;
+    uint8_t green = 0;
+    uint8_t blue  = 0;
+
+    switch (get_highest_layer(layer_state)) {
+        case _TOP: // Space Cadet / LaTeX
+            red   = 0x34;
+            green = 0x78;
+            blue  = 0xF6;
+            break;
+        case _GIT:
+            red   = 0xFF;
+            green = 0x44;
+            blue  = 0x00;
+            break;
+        default:
+            if (host_keyboard_led_state().caps_lock) {
+                red   = 0xFF;
+                green = 0x20;
+                blue  = 0x20;
+            }
+            break;
+    }
+
+    for (uint8_t i = led_min; i < led_max; i++) {
+        if (HAS_ANY_FLAGS(g_led_config.flags[i], LED_FLAG_INDICATOR)) {
+            rgb_matrix_set_color(i, red, green, blue);
         }
     }
+
     return false;
 }
 
